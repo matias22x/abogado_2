@@ -13,6 +13,7 @@
   <script src="/abogado_2/node_modules/jquery/dist/jquery.min.js"></script>
   <script src="/abogado_2/node_modules/materialize-css/dist/js/materialize.min.js"></script>
   <script src="/abogado_2/javascripts/scripts/materialize-stepper.min.js"></script>
+  <script src="/abogado_2/javascripts/smtp.js"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
   <!-- Make sure you put this AFTER Leaflet's CSS -->
@@ -118,9 +119,9 @@
               <label for="email">Email</label>
             </div>
           </div>
-          <button class="btn waves-effect waves-light" type="submit" name="action">Enviar
-              <i class="material-icons right">send</i>
-            </button>
+          <button class="btn waves-effect waves-light" type="button" name="action" onclick=" enviarMail();return false;">Enviar
+            <i class="material-icons right">send</i>
+          </button>
         </form>
       </div>
   </section>
@@ -283,6 +284,25 @@
       $("#slider1").sliderResponsive({});
 
     });
+
+    function enviarMail() {
+      var mail = $('#email').val();
+      var nombre = $('#nombre').val();
+      var telefono = $('#telefono').val();
+      var celular = $('#celular').val();
+      console.log(mail);
+      console.log(nombre);
+      console.log(telefono);
+      console.log(celular);
+      if ( mail && nombre && (telefono || celular)){
+        Email.send("estudiocatena@hotmail.com",
+        "estudiocatena@hotmail.com",
+        "Nuevo contacto: "+nombre,
+        "<h2>Nuevo contacto desde su sitio web</h2><br/><b>Nombre</b>: "+nombre+"<br/><b>Mail</b>: "+mail+"<br/><b>Telefono</b>: "+telefono+"<br/><b>Celular</b>: "+celular+"<br/> ",
+        {token: "847327d1-11f5-4bd9-a09c-56ef0abe772b"});
+      }
+
+    }
 
     var mymap = L.map('map').setView([-34.6335292,-58.4775878], 18.56);
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
